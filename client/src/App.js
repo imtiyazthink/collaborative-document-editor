@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import Dashboard from './components/Dashboard';
+import DocumentEditor from './components/DocumentEditor';
+import Login from './components/Login';
+import PrivateRoute from './components/PrivateRoute';
+import { SocketProvider } from './context/SocketContext';
 
-function App() {
+let router = createBrowserRouter([
+  {
+    path: "/",
+    Component() {
+      return <Login />;
+    },
+  },
+  {
+    path: "/dashboard",
+    Component() {
+      return <PrivateRoute element={<Dashboard />} />;
+    },
+  },
+  {
+    path: "/editor",
+    Component() {
+      return <PrivateRoute element={
+        <SocketProvider>
+          <DocumentEditor />
+        </SocketProvider>
+      } />;
+    },
+  },
+]);
+
+const App = () => {
+  console.log("process.env.REACT_APP_BASE_URL: ", process.env.REACT_APP_BASE_URL)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RouterProvider router={router} fallbackElement={<p>Loading...</p>} />
   );
-}
+};
 
 export default App;
