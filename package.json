@@ -4,7 +4,7 @@
   "description": "A real-time collaborative document editor with AI-powered suggestions",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start": "node init && nodemon server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
